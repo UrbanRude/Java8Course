@@ -5,36 +5,34 @@
  */
 package java8;
 
-import java.util.Optional;
+import javax.script.ScriptEngineManager;
+import javax.script.ScriptEngine;
+import javax.script.ScriptException;
 
 public class Java8{
  
-    public static void main(String[] args) {      
-        
-    	Java8 java8 = new Java8();
+    public static void main(String[] args) {
     	
-    	Integer val1 = null;
-    	Integer val2 = new Integer(10);
+    	ScriptEngineManager scriptEngineManager = new ScriptEngineManager();
+    	ScriptEngine nashorn = scriptEngineManager.getEngineByName("nashorn");
     	
-    	Optional<Integer> a = Optional.ofNullable(val1);
-    	Optional<Integer> b = Optional.of(val2);
-    	    	
-    	System.out.println(java8.sum(a, b));
+    	String name = "Urbano";
+       	Integer result = null;
+       	
+       	try {
+			nashorn.eval("print('"+name+"')");
+			result = (Integer) nashorn.eval("10 + 2");
+		} catch (ScriptException e) {
+			System.out.println("Error executing script: "+e.getMessage());
+		}
+       	
+       	System.out.println( result.toString() );
+    	
+    	
         
     }
+        
     
-    public Integer sum( Optional<Integer> a, Optional<Integer> b ) {
-    	
-    	System.out.println("Frist parameter is present >> " + a.isPresent());
-    	System.out.println("Second parameter is present >> " + b.isPresent());
-    	
-    	Integer value1 = a.orElse(new Integer(0));
-    	
-    	Integer value2 = b.get();
-    	
-    	return value1 + value2;
-    	
-    } 
     
     
 }
